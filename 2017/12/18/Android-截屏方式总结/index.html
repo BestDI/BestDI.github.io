@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Mia's Home" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一. Android如何禁止Application截屏？1getWindow().setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE);  如果一遍不行，那就来两遍。FLAG_SECURE.StackOverflow">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 截屏方式总结">
+<meta property="og:url" content="http://yoursite.com/2017/12/18/Android-截屏方式总结/index.html">
+<meta property="og:site_name" content="Mia&#39;s Home">
+<meta property="og:description" content="一. Android如何禁止Application截屏？1getWindow().setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE);  如果一遍不行，那就来两遍。FLAG_SECURE.StackOverflow">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-18T12:22:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 截屏方式总结">
+<meta name="twitter:description" content="一. Android如何禁止Application截屏？1getWindow().setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE);  如果一遍不行，那就来两遍。FLAG_SECURE.StackOverflow">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideDownIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/18/Android-截屏方式总结/"/>
+
+
+
+
+
+  <title>Android 截屏方式总结 | Mia's Home</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mia's Home</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/18/Android-截屏方式总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mia's Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android 截屏方式总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T20:18:19+08:00">
+                2017-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,325
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一-Android如何禁止Application截屏？"><a href="#一-Android如何禁止Application截屏？" class="headerlink" title="一. Android如何禁止Application截屏？"></a>一. Android如何禁止Application截屏？</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getWindow().setFlags(LayoutParams.FLAG_SECURE, LayoutParams.FLAG_SECURE);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果一遍不行，那就来两遍。<a href="https://stackoverflow.com/questions/28606689/how-to-prevent-screen-capture-in-android" target="_blank" rel="noopener">FLAG_SECURE.StackOverflow</a></p>
+</blockquote>
+<a id="more"></a> 
+<h2 id="二-如何监听截屏"><a href="#二-如何监听截屏" class="headerlink" title="二. 如何监听截屏"></a>二. 如何监听截屏</h2><blockquote>
+<p>使用ContentObserver进行相册的监听,<a href="https://stackoverflow.com/questions/31360296/listen-for-screenshot-action-in-android" target="_blank" rel="noopener">原链</a></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 定义 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ScreenShotContentObserver</span> <span class="keyword">extends</span> <span class="title">ContentObserver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Context context;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isFromEdit = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">private</span> String previousPath;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ScreenShotContentObserver</span><span class="params">(Handler handler, Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(handler);</span><br><span class="line">        <span class="keyword">this</span>.context = context;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deliverSelfNotifications</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.deliverSelfNotifications();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChange</span><span class="params">(<span class="keyword">boolean</span> selfChange)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onChange(selfChange);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChange</span><span class="params">(<span class="keyword">boolean</span> selfChange, Uri uri)</span> </span>&#123;</span><br><span class="line">        Cursor cursor = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            cursor = context.getContentResolver().query(uri, <span class="keyword">new</span> String[]&#123;</span><br><span class="line">                    MediaStore.Images.Media.DISPLAY_NAME,</span><br><span class="line">                    MediaStore.Images.Media.DATA</span><br><span class="line">            &#125;, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">            <span class="keyword">if</span> (cursor != <span class="keyword">null</span> &amp;&amp; cursor.moveToLast()) &#123;</span><br><span class="line">                <span class="keyword">int</span> displayNameColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);</span><br><span class="line">                <span class="keyword">int</span> dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);</span><br><span class="line">                String fileName = cursor.getString(displayNameColumnIndex);</span><br><span class="line">                String path = cursor.getString(dataColumnIndex);</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">new</span> File(path).lastModified() &gt;= System.currentTimeMillis() - <span class="number">10000</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (isScreenshot(path) &amp;&amp; !isFromEdit &amp;&amp; !(previousPath != <span class="keyword">null</span> &amp;&amp; previousPath.equals(path))) &#123;</span><br><span class="line">                        onScreenShot(path, fileName);</span><br><span class="line">                    &#125;</span><br><span class="line">                    previousPath = path;</span><br><span class="line">                    isFromEdit = <span class="keyword">false</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    cursor.close();</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">            isFromEdit = <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (cursor != <span class="keyword">null</span>) &#123;</span><br><span class="line">                cursor.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">super</span>.onChange(selfChange, uri);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isScreenshot</span><span class="params">(String path)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> path != <span class="keyword">null</span> &amp;&amp; path.toLowerCase().contains(<span class="string">"screenshot"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">onScreenShot</span><span class="params">(String path, String fileName)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 使用 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ScreenShotContentObserver screenShotContentObserver;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        screenShotContentObserver = <span class="keyword">new</span> ScreenShotContentObserver(handler, <span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onScreenShot</span><span class="params">(String path, String fileName)</span> </span>&#123;</span><br><span class="line">                File file = <span class="keyword">new</span> File(path); <span class="comment">//this is the file of screenshot image</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onResume();</span><br><span class="line">        getContentResolver().registerContentObserver(</span><br><span class="line">            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,</span><br><span class="line">                <span class="keyword">true</span>,</span><br><span class="line">                screenShotContentObserver</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onPause();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            getContentResolver().unregisterContentObserver(screenShotContentObserver);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            getContentResolver().unregisterContentObserver(screenShotContentObserver);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三-如何截屏"><a href="#三-如何截屏" class="headerlink" title="三. 如何截屏"></a>三. 如何截屏</h2><h3 id="常见截屏方式"><a href="#常见截屏方式" class="headerlink" title="常见截屏方式"></a>常见截屏方式</h3><blockquote>
+<p>1.获取当前Window的DrawingCache的方式，即DecorView的DrawingCache</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * shot the current screen ,with the status but the status is trans *</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> ctx current activity</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">shotActivity</span><span class="params">(Activity ctx)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    View view = ctx.getWindow().getDecorView();</span><br><span class="line">    view.setDrawingCacheEnabled(<span class="keyword">true</span>);</span><br><span class="line">    view.buildDrawingCache();</span><br><span class="line"></span><br><span class="line">    Bitmap bp = Bitmap.createBitmap(view.getDrawingCache(), <span class="number">0</span>, <span class="number">0</span>, view.getMeasuredWidth(),</span><br><span class="line">        view.getMeasuredHeight());</span><br><span class="line"></span><br><span class="line">    view.setDrawingCacheEnabled(<span class="keyword">false</span>);</span><br><span class="line">    view.destroyDrawingCache();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bp;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ol>
+<li>获取某个View的DrawingCache</li>
+</ol>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">getViewBp</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == v) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        v.setDrawingCacheEnabled(<span class="keyword">true</span>);</span><br><span class="line">        v.buildDrawingCache();</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">11</span>) &#123;</span><br><span class="line">            v.measure(MeasureSpec.makeMeasureSpec(v.getWidth(),</span><br><span class="line">                    MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(</span><br><span class="line">                    v.getHeight(), MeasureSpec.EXACTLY));</span><br><span class="line">            v.layout((<span class="keyword">int</span>) v.getX(), (<span class="keyword">int</span>) v.getY(),</span><br><span class="line">                    (<span class="keyword">int</span>) v.getX() + v.getMeasuredWidth(),</span><br><span class="line">                    (<span class="keyword">int</span>) v.getY() + v.getMeasuredHeight());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            v.measure(MeasureSpec.makeMeasureSpec(<span class="number">0</span>, MeasureSpec.UNSPECIFIED),</span><br><span class="line">                    MeasureSpec.makeMeasureSpec(<span class="number">0</span>, MeasureSpec.UNSPECIFIED));</span><br><span class="line">            v.layout(<span class="number">0</span>, <span class="number">0</span>, v.getMeasuredWidth(), v.getMeasuredHeight());</span><br><span class="line">        &#125;</span><br><span class="line">        Bitmap b = Bitmap.createBitmap(v.getDrawingCache(), <span class="number">0</span>, <span class="number">0</span>, v.getMeasuredWidth(), v.getMeasuredHeight());</span><br><span class="line"></span><br><span class="line">        v.setDrawingCacheEnabled(<span class="keyword">false</span>);</span><br><span class="line">        v.destroyDrawingCache();</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="使用三方Library"><a href="#使用三方Library" class="headerlink" title="使用三方Library"></a>使用三方Library</h3><blockquote>
+<p><a href="https://github.com/tarek360/Instacapture" target="_blank" rel="noopener">tarek360.Instacapture</a>,使用Kotlin/Java实现的一个三方库，可以针对常见的View和一般视图实现快速截图。可以截图的包括：</p>
+<ol>
+<li>Google Map</li>
+<li>Dialog,context menus,toasts</li>
+<li>TextureView</li>
+<li>GLSurfaceView</li>
+</ol>
+<p>并且可以设置非截图View，无权限要求。</p>
+</blockquote>
+<h3 id="ScrollView截屏"><a href="#ScrollView截屏" class="headerlink" title="ScrollView截屏"></a>ScrollView截屏</h3><blockquote>
+<p>由于ScrollView只有一个直接子View，可以按照如下方式获取，<a href="https://stackoverflow.com/questions/43817116/take-a-full-screenshot-of-scrollview-android" target="_blank" rel="noopener">原链</a>:</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Bitmap bitmap = getBitmapFromView(scrollview, scrollview.getChildAt(<span class="number">0</span>).getHeight(), scrollview.getChildAt(<span class="number">0</span>).getWidth());</span><br><span class="line"></span><br><span class="line"><span class="comment">//create bitmap from the ScrollView </span></span><br><span class="line"><span class="function"><span class="keyword">private</span> Bitmap <span class="title">getBitmapFromView</span><span class="params">(View view, <span class="keyword">int</span> height, <span class="keyword">int</span> width)</span> </span>&#123;</span><br><span class="line">    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);</span><br><span class="line">    Canvas canvas = <span class="keyword">new</span> Canvas(bitmap);</span><br><span class="line">    Drawable bgDrawable = view.getBackground();</span><br><span class="line">    <span class="keyword">if</span> (bgDrawable != <span class="keyword">null</span>)</span><br><span class="line">        bgDrawable.draw(canvas);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        canvas.drawColor(Color.WHITE);</span><br><span class="line">    view.draw(canvas);</span><br><span class="line">    <span class="keyword">return</span> bitmap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h3><blockquote>
+<p>ListView中存在的问题，条目过多，有很多未可见<a href="http://stackoverflow.com/questions/12742343/android-get-screenshot-of-all-listview-items" target="_blank" rel="noopener">原链</a>。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">getWholeListViewItemsToBitmap</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    ListView listview    = MyActivity.mFocusedListView;</span><br><span class="line">    ListAdapter adapter  = listview.getAdapter(); </span><br><span class="line">    <span class="keyword">int</span> itemscount       = adapter.getCount();</span><br><span class="line">    <span class="keyword">int</span> allitemsheight   = <span class="number">0</span>;</span><br><span class="line">    List&lt;Bitmap&gt; bmps    = <span class="keyword">new</span> ArrayList&lt;Bitmap&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; itemscount; i++) &#123;</span><br><span class="line"></span><br><span class="line">        View childView      = adapter.getView(i, <span class="keyword">null</span>, listview);</span><br><span class="line">        childView.measure(MeasureSpec.makeMeasureSpec(listview.getWidth(), MeasureSpec.EXACTLY), </span><br><span class="line">                MeasureSpec.makeMeasureSpec(<span class="number">0</span>, MeasureSpec.UNSPECIFIED));</span><br><span class="line"></span><br><span class="line">        childView.layout(<span class="number">0</span>, <span class="number">0</span>, childView.getMeasuredWidth(), childView.getMeasuredHeight());</span><br><span class="line">        childView.setDrawingCacheEnabled(<span class="keyword">true</span>);</span><br><span class="line">        childView.buildDrawingCache();</span><br><span class="line">        bmps.add(childView.getDrawingCache());</span><br><span class="line">        allitemsheight+=childView.getMeasuredHeight();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Bitmap bigbitmap    = Bitmap.createBitmap(listview.getMeasuredWidth(), allitemsheight, Bitmap.Config.ARGB_8888);</span><br><span class="line">    Canvas bigcanvas    = <span class="keyword">new</span> Canvas(bigbitmap);</span><br><span class="line"></span><br><span class="line">    Paint paint = <span class="keyword">new</span> Paint();</span><br><span class="line">    <span class="keyword">int</span> iHeight = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bmps.size(); i++) &#123;</span><br><span class="line">        Bitmap bmp = bmps.get(i);</span><br><span class="line">        bigcanvas.drawBitmap(bmp, <span class="number">0</span>, iHeight, paint);</span><br><span class="line">        iHeight+=bmp.getHeight();</span><br><span class="line"></span><br><span class="line">        bmp.recycle();</span><br><span class="line">        bmp=<span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> bigbitmap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="RecyclerView"><a href="#RecyclerView" class="headerlink" title="RecyclerView"></a>RecyclerView</h3><blockquote>
+<p>ListView的替代品RecyclerView,<a href="https://stackoverflow.com/questions/30085063/take-a-screenshot-of-recyclerview-in-full-length" target="_blank" rel="noopener">原链</a></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">getScreenshotFromRecyclerView</span><span class="params">(RecyclerView view)</span> </span>&#123;</span><br><span class="line">        RecyclerView.Adapter adapter = view.getAdapter();</span><br><span class="line">        Bitmap bigBitmap = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (adapter != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> size = adapter.getItemCount();</span><br><span class="line">            <span class="keyword">int</span> height = <span class="number">0</span>;</span><br><span class="line">            Paint paint = <span class="keyword">new</span> Paint();</span><br><span class="line">            <span class="keyword">int</span> iHeight = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> maxMemory = (<span class="keyword">int</span>) (Runtime.getRuntime().maxMemory() / <span class="number">1024</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Use 1/8th of the available memory for this memory cache.</span></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> cacheSize = maxMemory / <span class="number">8</span>;</span><br><span class="line">            LruCache&lt;String, Bitmap&gt; bitmaCache = <span class="keyword">new</span> LruCache&lt;&gt;(cacheSize);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">                RecyclerView.ViewHolder holder = adapter.createViewHolder(view, adapter.getItemViewType(i));</span><br><span class="line">                adapter.onBindViewHolder(holder, i);</span><br><span class="line">                holder.itemView.measure(View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.EXACTLY),</span><br><span class="line">                        View.MeasureSpec.makeMeasureSpec(<span class="number">0</span>, View.MeasureSpec.UNSPECIFIED));</span><br><span class="line">                holder.itemView.layout(<span class="number">0</span>, <span class="number">0</span>, holder.itemView.getMeasuredWidth(), holder.itemView.getMeasuredHeight());</span><br><span class="line">                holder.itemView.setDrawingCacheEnabled(<span class="keyword">true</span>);</span><br><span class="line">                holder.itemView.buildDrawingCache();</span><br><span class="line">                Bitmap drawingCache = holder.itemView.getDrawingCache();</span><br><span class="line">                <span class="keyword">if</span> (drawingCache != <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                    bitmaCache.put(String.valueOf(i), drawingCache);</span><br><span class="line">                &#125;</span><br><span class="line"><span class="comment">//                holder.itemView.setDrawingCacheEnabled(false);</span></span><br><span class="line"><span class="comment">//                holder.itemView.destroyDrawingCache();</span></span><br><span class="line">                height += holder.itemView.getMeasuredHeight();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            bigBitmap = Bitmap.createBitmap(view.getMeasuredWidth(), height, Bitmap.Config.ARGB_8888);</span><br><span class="line">            Canvas bigCanvas = <span class="keyword">new</span> Canvas(bigBitmap);</span><br><span class="line">            bigCanvas.drawColor(Color.WHITE);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">                Bitmap bitmap = bitmaCache.get(String.valueOf(i));</span><br><span class="line">                bigCanvas.drawBitmap(bitmap, <span class="number">0f</span>, iHeight, paint);</span><br><span class="line">                iHeight += bitmap.getHeight();</span><br><span class="line">                bitmap.recycle();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bigBitmap;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="WebView"><a href="#WebView" class="headerlink" title="WebView"></a>WebView</h3><blockquote>
+<p><a href="https://stackoverflow.com/questions/9745988/how-can-i-programmatically-take-a-screenshot-of-a-webview-capturing-the-full-pa" target="_blank" rel="noopener">原链</a></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">w = <span class="keyword">new</span> WebView(<span class="keyword">this</span>);</span><br><span class="line">    w.setWebViewClient(<span class="keyword">new</span> WebViewClient()</span><br><span class="line">    &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageFinished</span><span class="params">(WebView view, String url)</span></span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                    Picture picture = view.capturePicture();</span><br><span class="line">                    Bitmap  b = Bitmap.createBitmap( picture.getWidth(),</span><br><span class="line">                    picture.getHeight(), Bitmap.Config.ARGB_8888);</span><br><span class="line">                    Canvas c = <span class="keyword">new</span> Canvas( b );</span><br><span class="line"></span><br><span class="line">                    picture.draw( c );</span><br><span class="line">                    FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">                        fos = <span class="keyword">new</span> FileOutputStream( <span class="string">"mnt/sdcard/yahoo.jpg"</span> );</span><br><span class="line">                            <span class="keyword">if</span> ( fos != <span class="keyword">null</span> )</span><br><span class="line">                            &#123;</span><br><span class="line">                                b.compress(Bitmap.CompressFormat.JPEG, <span class="number">100</span>, fos);</span><br><span class="line"></span><br><span class="line">                                fos.close();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                   <span class="keyword">catch</span>( Exception e )</span><br><span class="line">                   &#123;</span><br><span class="line"></span><br><span class="line">                   &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/14/Java计算两个日期之间的天数/" rel="next" title="Java计算两个日期之间的天数">
+                <i class="fa fa-chevron-left"></i> Java计算两个日期之间的天数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/19/如何使用HEXO创建博客/" rel="prev" title="如何使用HEXO创建博客">
+                如何使用HEXO创建博客 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Mia" />
+            
+              <p class="site-author-name" itemprop="name">Mia</p>
+              <p class="site-description motion-element" itemprop="description">live like a dog~</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/BestDI" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:U201013297@hust.edu.cn" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-Android如何禁止Application截屏？"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;-Android&#x5982;&#x4F55;&#x7981;&#x6B62;Application&#x622A;&#x5C4F;&#xFF1F;" class="headerlink" title="&#x4E00;. Android&#x5982;&#x4F55;&#x7981;&#x6B62;Application&#x622A;&#x5C4F;&#xFF1F;"></a>&#x4E00;. Android&#x5982;&#x4F55;&#x7981;&#x6B62;Application&#x622A;&#x5C4F;&#xFF1F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-如何监听截屏"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;-&#x5982;&#x4F55;&#x76D1;&#x542C;&#x622A;&#x5C4F;" class="headerlink" title="&#x4E8C;. &#x5982;&#x4F55;&#x76D1;&#x542C;&#x622A;&#x5C4F;"></a>&#x4E8C;. &#x5982;&#x4F55;&#x76D1;&#x542C;&#x622A;&#x5C4F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-如何截屏"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;-&#x5982;&#x4F55;&#x622A;&#x5C4F;" class="headerlink" title="&#x4E09;. &#x5982;&#x4F55;&#x622A;&#x5C4F;"></a>&#x4E09;. &#x5982;&#x4F55;&#x622A;&#x5C4F;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见截屏方式"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x5E38;&#x89C1;&#x622A;&#x5C4F;&#x65B9;&#x5F0F;" class="headerlink" title="&#x5E38;&#x89C1;&#x622A;&#x5C4F;&#x65B9;&#x5F0F;"></a>&#x5E38;&#x89C1;&#x622A;&#x5C4F;&#x65B9;&#x5F0F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用三方Library"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x4E09;&#x65B9;Library" class="headerlink" title="&#x4F7F;&#x7528;&#x4E09;&#x65B9;Library"></a>&#x4F7F;&#x7528;&#x4E09;&#x65B9;Library</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ScrollView截屏"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#ScrollView&#x622A;&#x5C4F;" class="headerlink" title="ScrollView&#x622A;&#x5C4F;"></a>ScrollView&#x622A;&#x5C4F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ListView"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RecyclerView"><span class="nav-number">3.5.</span> <span class="nav-text"><a href="#RecyclerView" class="headerlink" title="RecyclerView"></a>RecyclerView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebView"><span class="nav-number">3.6.</span> <span class="nav-text"><a href="#WebView" class="headerlink" title="WebView"></a>WebView</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">人生是一种不可阻挡的进步</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://github.com/BestDI">GitHub</a></div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.3"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.3"></script>
+
+
+  
+
+</body>
+</html>
