@@ -229,6 +229,7 @@
             
   <section id="posts" class="posts-expand">
     
+	  
       
 
   
@@ -242,7 +243,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/30/EventBus-源码赏析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/29/EventBus-源码赏析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mia">
@@ -261,7 +262,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/30/EventBus-源码赏析/" itemprop="url">EventBus 源码赏析</a></h1>
+                <a class="post-title-link" href="/2018/03/29/EventBus-源码赏析/" itemprop="url">EventBus 源码赏析</a></h1>
         
 
         <div class="post-meta">
@@ -273,158 +274,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T00:04:31+09:00">
-                2018-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  0
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/Android-LocalBroadcastManager的使用及源码解析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mia">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mia's Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/08/Android-LocalBroadcastManager的使用及源码解析/" itemprop="url">Android LocalBroadcastManager的使用及源码解析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T23:25:34+09:00">
-                2018-01-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-29T22:04:31+08:00">
+                2018-03-29
               </time>
             
 
@@ -448,6 +299,17 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Android/" itemprop="url" rel="index">
                     <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/三方框架/" itemprop="url" rel="index">
+                    <span itemprop="name">三方框架</span>
                   </a>
                 </span>
 
@@ -477,7 +339,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0
+                  2,828
                 </span>
               
 
@@ -493,7 +355,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  12
                 </span>
               
             </div>
@@ -515,9 +377,19 @@
 
       
         
-          
-            <a id="more"></a> 
-          
+          <h4 id="一-、简单概括"><a href="#一-、简单概括" class="headerlink" title="一 、简单概括"></a>一 、简单概括</h4><ul>
+<li>EventBus是一个Android/Java平台基于订阅与发布的同通信框架，不支持跨进程。可以用于Activity/Fragment/Thread/Service之间通信解耦，也可以用于多线程通信。</li>
+<li>EventBus相对于BroadcastReceiver、Handler、接口回调的有点在于简单，事件的订阅和发布解耦，但是存在的问题也很明显，会有大量的Event类来管理</li>
+<li>Event bus for Android and Java that simplifies communication between Activities, Fragments, Threads, Services, etc. Less code, better quality.</li>
+<li><a href="https://github.com/greenrobot/EventBus" target="_blank" rel="noopener">GITHUB直连</a></li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/29/EventBus-源码赏析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -550,179 +422,13 @@
   </article>
 
 
+	  
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/07/Android-AIDL-Binder框架分析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mia">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Mia's Home">
-    </span>
-
+	  
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/07/Android-AIDL-Binder框架分析/" itemprop="url">Android AIDL Binder框架分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-07T23:29:25+09:00">
-                2018-01-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  0
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
+	  
     
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <a id="more"></a> 
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
+	  
       
 
   
@@ -767,7 +473,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T00:41:33+09:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T00:41:33+08:00">
                 2018-01-03
               </time>
             
@@ -903,7 +609,9 @@
   </article>
 
 
+	  
     
+	  
       
 
   
@@ -948,7 +656,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-28T23:08:41+09:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-28T23:08:41+08:00">
                 2017-12-28
               </time>
             
@@ -1085,7 +793,9 @@
   </article>
 
 
+	  
     
+	  
       
 
   
@@ -1130,7 +840,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T22:23:59+09:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T22:23:59+08:00">
                 2017-12-25
               </time>
             
@@ -1272,7 +982,9 @@
   </article>
 
 
+	  
     
+	  
       
 
   
@@ -1317,7 +1029,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-19T23:33:26+09:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-19T23:33:26+08:00">
                 2017-12-19
               </time>
             
@@ -1455,7 +1167,9 @@
   </article>
 
 
+	  
     
+	  
       
 
   
@@ -1500,7 +1214,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T20:18:19+09:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T20:18:19+08:00">
                 2017-12-18
               </time>
             
@@ -1635,7 +1349,9 @@
   </article>
 
 
+	  
     
+	  
       
 
   
@@ -1680,7 +1396,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T22:31:21+09:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T22:31:21+08:00">
                 2017-12-14
               </time>
             
@@ -1823,7 +1539,9 @@
   </article>
 
 
+	  
     
+	  
       
 
   
@@ -1868,7 +1586,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-13T23:37:03+09:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-13T23:37:03+08:00">
                 2017-12-13
               </time>
             
@@ -2006,6 +1724,7 @@
   </article>
 
 
+	  
     
   </section>
 
@@ -2072,7 +1791,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -2083,7 +1802,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
