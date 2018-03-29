@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/03/30/EventBus-%E6%BA%90%E7%A0%81%E8%B5%8F%E6%9E%90/</loc>
+    
+    <lastmod>2018-03-29T15:04:31.197Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/07/Android-AIDL-Binder%E6%A1%86%E6%9E%B6%E5%88%86%E6%9E%90/</loc>
+    
+    <lastmod>2018-01-08T15:30:27.028Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/08/Android-LocalBroadcastManager%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    
+    <lastmod>2018-01-08T15:30:24.464Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/01/03/Android-Messenger%E8%B7%A8%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/</loc>
     
     <lastmod>2018-01-04T15:57:36.598Z</lastmod>
