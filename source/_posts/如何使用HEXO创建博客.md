@@ -54,7 +54,7 @@ save_scroll: false
 > tag: `[Hexo,HTML,JavaScript]`
 > categories: `[Hexo,HTML]`
 
-### 三、关于Hexo next主题如何在首页隐藏指定的文章
+### 四、关于Hexo next主题如何在首页隐藏指定的文章
 
 <!-- http://forwardkth.github.io/2016/05/08/next-theme-post-visibility/ -->
 
@@ -67,3 +67,8 @@ save_scroll: false
 
 > title: 关于Hexo next主题如何在首页隐藏指定的文章
 > visible: hide 这里如果加上hide则该文章就不会在文章首页显示，如果留空则表示默认显示
+
+### 五、HEXO电脑切换
+
+> 创建hexo分支保存源码，如文中 https://blog.csdn.net/wxl1555/article/details/79293159
+> 知乎大神，https://www.zhihu.com/question/21193762
