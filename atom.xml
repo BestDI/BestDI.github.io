@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-01T15:17:20.721Z</updated>
+  <updated>2018-04-14T03:41:43.265Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vysor Pro破解</title>
+    <link href="http://yoursite.com/2018/04/14/Vysor-Pro%E7%A0%B4%E8%A7%A3/"/>
+    <id>http://yoursite.com/2018/04/14/Vysor-Pro破解/</id>
+    <published>2018-04-14T03:21:36.000Z</published>
+    <updated>2018-04-14T03:41:43.265Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Vysor-Pro破解"><a href="#Vysor-Pro破解" class="headerlink" title="Vysor Pro破解"></a>Vysor Pro破解</h2><blockquote><p>下载官网 <strong><a href="https://www.vysor.io/" target="_blank" rel="noopener">Vysor</a></strong></p><p>文中在WIN10环境下针对<code>chrome插件版本的Vysor</code>进行的破解</p></blockquote><a id="more"></a> <h3 id="破解Vysor-Pro"><a href="#破解Vysor-Pro" class="headerlink" title="破解Vysor Pro"></a>破解Vysor Pro</h3><ol><li>确保你成功安装Chrome且安装了此插件并启动过一次；</li><li>打开Chrome拓展程序-&gt;启用开发者模式，找到Vysor即可看到ID 记住这个id；</li></ol><p><img src="/images/2018_0414/chrome_vysor.png" alt=""></p><ol><li>打开<code>Vysor</code>本地文件<code>uglify.js</code>，具体路径如下：<code>C:\Users\当前用户名\AppData\Local\Google\Chrome\UserData\Default\Extensions\Vysor_Id\1.9.0/uglify.js</code></li><li>打开<code>uglify.js</code>之后，可以使用进行格式化<a href="https://www.json.cn/" target="_blank" rel="noopener">www.json.cn</a></li><li>搜索关键字<br><code>Vysor subscription is active. Thank you for your support</code></li><li>按照图示进行文件修改，并保存重启Vysor即可</li></ol><p><img src="/images/2018_0414/vysor_modify.png" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Vysor-Pro破解&quot;&gt;&lt;a href=&quot;#Vysor-Pro破解&quot; class=&quot;headerlink&quot; title=&quot;Vysor Pro破解&quot;&gt;&lt;/a&gt;Vysor Pro破解&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;下载官网 &lt;strong&gt;&lt;a href=&quot;https://www.vysor.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Vysor&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;文中在WIN10环境下针对&lt;code&gt;chrome插件版本的Vysor&lt;/code&gt;进行的破解&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="tools" scheme="http://yoursite.com/categories/tools/"/>
+    
+    
+      <category term="Vysor" scheme="http://yoursite.com/tags/Vysor/"/>
+    
+  </entry>
   
   <entry>
     <title>AndFix原理及源码解析</title>
@@ -324,7 +349,7 @@
     <link href="http://yoursite.com/2017/12/12/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8HEXO%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/"/>
     <id>http://yoursite.com/2017/12/12/如何使用HEXO创建博客/</id>
     <published>2017-12-12T15:37:03.000Z</published>
-    <updated>2018-03-29T16:18:32.893Z</updated>
+    <updated>2018-04-14T03:22:20.369Z</updated>
     
     <content type="html"><![CDATA[<h3 id="一、快速开始"><a href="#一、快速开始" class="headerlink" title="一、快速开始"></a>一、快速开始</h3><blockquote><p>Create a new post</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><blockquote><p>Run server</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><blockquote><p>Generate static files</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><blockquote><p>Deploy to remote sites</p></blockquote><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><a id="more"></a> <p>More Info:</p><ul><li><a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></li><li><a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></li><li><a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></li><li><a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></li></ul><h3 id="二、设置自动滚动"><a href="#二、设置自动滚动" class="headerlink" title="二、设置自动滚动"></a>二、设置自动滚动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Automatically saving scroll position on each post/page in cookies.</span></span><br><span class="line">save_scroll: <span class="literal">false</span></span><br></pre></td></tr></table></figure><h3 id="三、设置多个tag或category"><a href="#三、设置多个tag或category" class="headerlink" title="三、设置多个tag或category"></a>三、设置多个tag或category</h3><blockquote><p>伪JavaScript数组写法</p><p>tag: <code>[Hexo,HTML,JavaScript]</code><br>categories: <code>[Hexo,HTML]</code></p></blockquote><h3 id="四、关于Hexo-next主题如何在首页隐藏指定的文章"><a href="#四、关于Hexo-next主题如何在首页隐藏指定的文章" class="headerlink" title="四、关于Hexo next主题如何在首页隐藏指定的文章"></a>四、关于Hexo next主题如何在首页隐藏指定的文章</h3><!-- http://forwardkth.github.io/2016/05/08/next-theme-post-visibility/ --><blockquote><p>修改next主题文件夹下的layout中的index.swig文件，\themes\next\layout\index.swig</p></blockquote><p><img src="http://ww1.sinaimg.cn/large/74505a4cgw1f3onp6eculj20ds0d70vb.jpg" alt="图示"></p><blockquote><p>在新的post中添加visible字段来控制是否首页显示</p><p>title: 关于Hexo next主题如何在首页隐藏指定的文章<br>visible: hide 这里如果加上hide则该文章就不会在文章首页显示，如果留空则表示默认显示</p></blockquote><h3 id="五、HEXO电脑切换"><a href="#五、HEXO电脑切换" class="headerlink" title="五、HEXO电脑切换"></a>五、HEXO电脑切换</h3><blockquote><p>创建hexo分支保存源码，如文中 <a href="https://blog.csdn.net/wxl1555/article/details/79293159" target="_blank" rel="noopener">https://blog.csdn.net/wxl1555/article/details/79293159</a><br>知乎大神，<a href="https://www.zhihu.com/question/21193762" target="_blank" rel="noopener">https://www.zhihu.com/question/21193762</a></p></blockquote>]]></content>
     
@@ -350,6 +375,8 @@
     </summary>
     
       <category term="Hexo" scheme="http://yoursite.com/categories/Hexo/"/>
+    
+      <category term="tools" scheme="http://yoursite.com/categories/Hexo/tools/"/>
     
     
       <category term="Hexo" scheme="http://yoursite.com/tags/Hexo/"/>
