@@ -2,7 +2,7 @@
 title: 如何使用HEXO创建博客
 date: 2017-12-12 23:37:03
 tags: [Hexo]
-categories: [Hexo]
+categories: [Hexo,tools]
 ---
 
 ### 一、快速开始
