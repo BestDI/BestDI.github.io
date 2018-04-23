@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Android Fingerprint浅析一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Fingerprint浅析">
+<meta property="og:url" content="http://yoursite.com/2018/04/21/Android-Fingerprint浅析/index.html">
+<meta property="og:site_name" content="Mia&#39;s Home">
+<meta property="og:description" content="Android Fingerprint浅析一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_communication.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_service2.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_service1.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/fingerprintd_1.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/fpd_main.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/IFp_Daemon.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/IFp_java.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/hal.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_h.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_openHalNew.png">
+<meta property="og:image" content="http://yoursite.com/images/2018_0423/fingerprintserviceReceiver.png">
+<meta property="og:updated_time" content="2018-04-23T12:43:24.647Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Fingerprint浅析">
+<meta name="twitter:description" content="Android Fingerprint浅析一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
+<meta name="twitter:image" content="http://yoursite.com/images/2018_0423/fp_communication.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideDownIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/21/Android-Fingerprint浅析/"/>
+
+
+
+
+
+  <title>Android Fingerprint浅析 | Mia's Home</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mia's Home</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/21/Android-Fingerprint浅析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mia's Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android Fingerprint浅析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-21T23:24:00+08:00">
+                2018-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,221
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Android-Fingerprint浅析"><a href="#Android-Fingerprint浅析" class="headerlink" title="Android Fingerprint浅析"></a>Android Fingerprint浅析</h2><h3 id="一，Fingerprint总体架构图"><a href="#一，Fingerprint总体架构图" class="headerlink" title="一，Fingerprint总体架构图"></a>一，Fingerprint总体架构图</h3><p>Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；</p>
+<p><img src="/images/2018_0423/fp_communication.png" alt="Fp_communication"></p>
+<a id="more"></a> 
+<h3 id="二，Fingerprint-Framework初始化流程"><a href="#二，Fingerprint-Framework初始化流程" class="headerlink" title="二，Fingerprint Framework初始化流程"></a>二，Fingerprint Framework初始化流程</h3><p>2.1. 在Zygote初始化进程中，会启动各种Service，包括FingerprintServe；<br><code>FingerprintService</code>的启动在SystemServer.java的<code>startOtherService()</code>过程中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * API23</span></span><br><span class="line"><span class="comment"> * Starts a miscellaneous grab bag of stuff that has yet to be refactored</span></span><br><span class="line"><span class="comment"> * and organized.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startOtherServices</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">// disableNonCoreServices -&gt; SystemProperties.getBoolean("config.disable_noncore", false);</span></span><br><span class="line">	<span class="comment">// 配置项，是否加载非核心服务</span></span><br><span class="line">    <span class="keyword">if</span> (!disableNonCoreServices) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Slog.i(TAG, <span class="string">"Media Router Service"</span>);</span><br><span class="line">            mediaRouter = <span class="keyword">new</span> MediaRouterService(context);</span><br><span class="line">            ServiceManager.addService(Context.MEDIA_ROUTER_SERVICE, mediaRouter);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            reportWtf(<span class="string">"starting MediaRouterService"</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mSystemServiceManager.startService(TrustManagerService.class);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动FingerprintService</span></span><br><span class="line">        mSystemServiceManager.startService(FingerprintService.class);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Slog.i(TAG, <span class="string">"BackgroundDexOptService"</span>);</span><br><span class="line">            BackgroundDexOptService.schedule(context, <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            reportWtf(<span class="string">"starting BackgroundDexOptService"</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Android N */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startOtherService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 启动FingerprintService</span></span><br><span class="line">	<span class="comment">// FEATURE_FINGERPRINT = "android.hardware.fingerprint"</span></span><br><span class="line">	<span class="comment">// mPackageManager.hasSystemFeature(&lt;fileName&gt;) &lt;- mAvailableFeatures(ArryayList) &lt;- SystemConfig去加载etc目录下的配置。</span></span><br><span class="line">	<span class="keyword">if</span> (mPackageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)) &#123;</span><br><span class="line">    traceBeginAndSlog(<span class="string">"StartFingerprintSensor"</span>);</span><br><span class="line">    mSystemServiceManager.startService(FingerprintService.class);</span><br><span class="line">    traceEnd();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.2. 在Android N版本以上，加入了SystemFeature的判断，如果需要支持的话，需要在<code>framework/native/data/etc</code>目录下添加<code>android.hardware.fingerprint.xml</code>来支持该功能，mPackageManager.hasSystemFeature(<filename>)是最终通过获取配置来判断是否具有此功能。</filename></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- This is the standard set of features for a biometric fingerprint sensor. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">permissions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">feature</span> <span class="attr">name</span>=<span class="string">"android.hardware.fingerprint"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">permissions</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>2.3. 启动FingerprintService，并添加到ServiceManager中，</p>
+<p><img src="/images/2018_0423/fp_service2.png" alt=""></p>
+<blockquote>
+<p>将FingerprintService添加到ServiceManager中后，在SystemServiceRegistry.java中静态代码块中注册服务的时候，可以从ServiceManager中获取FingerprintService的Binder对象，从而可以构造出FingerprintManager对象，这样app端就可以通过Context来获取FingerprintManager对象。 </p>
+</blockquote>
+<p><img src="/images/2018_0423/fp_service1.png" alt=""></p>
+<blockquote>
+<p>这样，app端通过Context获取FingerprintManager，通过调用FingerprintManager的接口来实现相应的功能，FingerprintManager转调FingerprintService中方法，FingerprintService负责管理整个注册，识别、删除指纹、检查权限等流程的逻辑，FingerprintService调用fingerprintd的接口，通过fingerprintd和FingerprintHal层进行通信。</p>
+<p>在FingerprintService的getFingerprintDaemon方法中有如下步骤：<br>.1 获取fingerprintd<br>.2 向fingerprintd注册回调函数mDaemonCallback<br>.3 调用获取fingerprintd的openhal函数<br>.4 建立fingerprint文件系统节点，设置节点访问权限，调用fingerprintd的setActiveGroup，将路径传下去。此路径一半用来存储指纹模板的图片等</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> IFingerprintDaemon <span class="title">getFingerprintDaemon</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mDaemon == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// .1 获取fingerprintd</span></span><br><span class="line">        mDaemon = IFingerprintDaemon.Stub.asInterface(ServiceManager.getService(FINGERPRINTD));</span><br><span class="line">        <span class="keyword">if</span> (mDaemon != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                mDaemon.asBinder().linkToDeath(<span class="keyword">this</span>, <span class="number">0</span>);</span><br><span class="line">                <span class="comment">// .2 向fingerprintd注册回调函数mDaemonCallback</span></span><br><span class="line">                mDaemon.init(mDaemonCallback);</span><br><span class="line">                <span class="comment">// .3 调用获取fingerprintd的openhal函数</span></span><br><span class="line">                mHalDeviceId = mDaemon.openHal();</span><br><span class="line">                <span class="comment">/* .4 建立fingerprint文件系统节点，设置节点访问权限，</span></span><br><span class="line"><span class="comment">                调用fingerprintd的setActiveGroup，</span></span><br><span class="line"><span class="comment">                将路径传下去。此路径一半用来存储指纹模板的图片等*/</span></span><br><span class="line">                <span class="keyword">if</span> (mHalDeviceId != <span class="number">0</span>) &#123;</span><br><span class="line">                    updateActiveGroup(ActivityManager.getCurrentUser());</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Slog.w(TAG, <span class="string">"Failed to open Fingerprint HAL!"</span>);</span><br><span class="line">                    mDaemon = <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                Slog.e(TAG, <span class="string">"Failed to open fingeprintd HAL"</span>, e);</span><br><span class="line">                mDaemon = <span class="keyword">null</span>; <span class="comment">// try again later!</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Slog.w(TAG, <span class="string">"fingerprint service not available"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mDaemon;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.1 FingerprintService在framework模块负责指纹的大部分逻辑，FingerprintService会在开机的时候初始化；<br>.2 application调用framework通过FingerprintManager接口即可实现；<br>.3 framework中FingerManager和FingerprintService的通信使用Binder机制实现，表现即使用aidl这个接口定义语言实现<br>.4 framework调往fingerprintd的同样属于Binder通信，两者分属于不同的进程。不过这部分跟java层Binder处理有点不一样，是java层往native层的调用。</p>
+</blockquote>
+<h3 id="三，Fingerprintd初始化"><a href="#三，Fingerprintd初始化" class="headerlink" title="三，Fingerprintd初始化"></a>三，Fingerprintd初始化</h3><p><img src="/images/2018_0423/fingerprintd_1.png" alt=""></p>
+<blockquote>
+<p>fingerprintd如果划分的比较细的话，可以分为四个部分：</p>
+<ul>
+<li><code>fingerprintd.cpp</code>“负责将fingerprintd加入到ServiceManager中，以便FingerprintService能够获取”</li>
+<li><code>IFingerprintDaemon.h/IFingerprintDaemon.cpp</code>“负责java层到fingerprintd的Binder通信”</li>
+<li><code>FingerprintDaemonProxy.h/FingerprintDaemonProxy.cpp</code>“负责fingerprintd和Fignerprint hal层的通信”</li>
+<li><code>IFingerprintDaemonCallback.h/IFingerprintDaemonCallback.cpp</code>“负责将指纹的回调结果传给java层”</li>
+</ul>
+</blockquote>
+<p>fingerprintd在init.rc有相应的开机启动脚本，所以一开机就会跑它的main函数。fingerprintd作为一个独立的进程运行，负责将Framework和Hal层的通信连接起来。</p>
+<p><img src="/images/2018_0423/fpd_main.png" alt=""></p>
+<p>fingerprintd 的main函数就是将fingerprintd添加到servicemanager中管理。然后开了一个线程，等待binder消息。</p>
+<h3 id="四，IFingerprintDaemon是如何跟framework通信的"><a href="#四，IFingerprintDaemon是如何跟framework通信的" class="headerlink" title="四，IFingerprintDaemon是如何跟framework通信的"></a>四，IFingerprintDaemon是如何跟framework通信的</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> IFINGERPRINT_DAEMON_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> IFINGERPRINT_DAEMON_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;binder/IInterface.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;binder/Parcel.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> android &#123;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IFingerprintDaemonCallback</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* Abstract base class for native implementation of FingerprintService.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* Note: This must be kept manually in sync with IFingerprintDaemon.aidl</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IFingerprintDaemon</span> :</span> <span class="keyword">public</span> IInterface, <span class="keyword">public</span> IBinder::DeathRecipient &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="keyword">enum</span> &#123;</span><br><span class="line">           AUTHENTICATE = IBinder::FIRST_CALL_TRANSACTION + <span class="number">0</span>,</span><br><span class="line">           CANCEL_AUTHENTICATION = IBinder::FIRST_CALL_TRANSACTION + <span class="number">1</span>,</span><br><span class="line">           ENROLL = IBinder::FIRST_CALL_TRANSACTION + <span class="number">2</span>,</span><br><span class="line">           CANCEL_ENROLLMENT = IBinder::FIRST_CALL_TRANSACTION + <span class="number">3</span>,</span><br><span class="line">           PRE_ENROLL = IBinder::FIRST_CALL_TRANSACTION + <span class="number">4</span>,</span><br><span class="line">           REMOVE = IBinder::FIRST_CALL_TRANSACTION + <span class="number">5</span>,</span><br><span class="line">           GET_AUTHENTICATOR_ID = IBinder::FIRST_CALL_TRANSACTION + <span class="number">6</span>,</span><br><span class="line">           SET_ACTIVE_GROUP = IBinder::FIRST_CALL_TRANSACTION + <span class="number">7</span>,</span><br><span class="line">           OPEN_HAL = IBinder::FIRST_CALL_TRANSACTION + <span class="number">8</span>,</span><br><span class="line">           CLOSE_HAL = IBinder::FIRST_CALL_TRANSACTION + <span class="number">9</span>,</span><br><span class="line">           INIT = IBinder::FIRST_CALL_TRANSACTION + <span class="number">10</span>,</span><br><span class="line">           POST_ENROLL = IBinder::FIRST_CALL_TRANSACTION + <span class="number">11</span>,</span><br><span class="line">           ENUMERATE = IBinder::FIRST_CALL_TRANSACTION + <span class="number">12</span>,</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        IFingerprintDaemon() &#123; &#125;</span><br><span class="line">        <span class="keyword">virtual</span> ~IFingerprintDaemon() &#123; &#125;</span><br><span class="line">        <span class="keyword">virtual</span> <span class="keyword">const</span> android::<span class="function">String16&amp; <span class="title">getInterfaceDescriptor</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Binder interface methods</span></span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">const</span> sp&lt;IFingerprintDaemonCallback&gt;&amp; callback)</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int32_t <span class="title">enroll</span><span class="params">(<span class="keyword">const</span> <span class="keyword">uint8_t</span>* token, <span class="keyword">ssize_t</span> tokenLength, <span class="keyword">int32_t</span> groupId,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">int32_t</span> timeout)</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> uint64_t <span class="title">preEnroll</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int32_t <span class="title">postEnroll</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int32_t <span class="title">stopEnrollment</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int32_t <span class="title">authenticate</span><span class="params">(<span class="keyword">uint64_t</span> sessionId, <span class="keyword">uint32_t</span> groupId)</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int32_t <span class="title">stopAuthentication</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int32_t <span class="title">remove</span><span class="params">(<span class="keyword">int32_t</span> fingerId, <span class="keyword">int32_t</span> groupId)</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int32_t <span class="title">enumerate</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> uint64_t <span class="title">getAuthenticatorId</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int32_t <span class="title">setActiveGroup</span><span class="params">(<span class="keyword">int32_t</span> groupId, <span class="keyword">const</span> <span class="keyword">uint8_t</span>* path, <span class="keyword">ssize_t</span> pathLen)</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int64_t <span class="title">openHal</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">        <span class="function"><span class="keyword">virtual</span> int32_t <span class="title">closeHal</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// DECLARE_META_INTERFACE - C++ client interface not needed</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">const</span> android::String16 descriptor;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">hal_notify_callback</span><span class="params">(<span class="keyword">const</span> <span class="keyword">fingerprint_msg_t</span> *msg)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ----------------------------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BnFingerprintDaemon</span>:</span> <span class="keyword">public</span> BnInterface&lt;IFingerprintDaemon&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">       <span class="function"><span class="keyword">virtual</span> status_t <span class="title">onTransact</span><span class="params">(<span class="keyword">uint32_t</span> code, <span class="keyword">const</span> Parcel&amp; data, Parcel* reply,</span></span></span><br><span class="line"><span class="function"><span class="params">               <span class="keyword">uint32_t</span> flags = <span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">       <span class="function"><span class="keyword">bool</span> <span class="title">checkPermission</span><span class="params">(<span class="keyword">const</span> String16&amp; permission)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// namespace android</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// IFINGERPRINT_DAEMON_H_</span></span></span><br></pre></td></tr></table></figure>
+<p>java层到fingerprintd的通信这里同样是采用binder方式，注意到上面IFingerprintDaemon.h NOTE，需要手动保证IFingerprintDaemon.h文件与IFingerprintDaemon.aidl文件一致，由于java层aidl文件编译时会自动编译成IFingerprintDaemon.java文件。</p>
+<p>当添加接口来调用指纹底层暴露的接口，在IFingerprintDaemon.h文件中添加类似上面35行到68行的枚举，枚举的值需要与java层aidl自动生成的java文件中的枚举保持一致。另外还需要在上面68行处加上描述这些接口的纯虚函数（c++中的纯虚函数类似java的抽象方法，用于定义接口的规范，在C++中，一个具有纯虚函数的基类被称为抽象类）。<br>如下面截图对比，我们发现IFingerprintDaemon.cpp和java层aidl生成的IFingerprintDaemon.java在onTransact是基本一致的。这样我们也就明白了为什么上面说需要手动和IFingerprintDaemon.aidl保持同步了，这样方式类似我们平时在三方应用使用aidl文件，需要保持client端和server端aidl文件一致。</p>
+<blockquote>
+<p>可以看到onTransact有四个参数<br>code ， data ，replay ， flags<br>code 是一个整形的唯一标识，用于区分执行哪个方法，客户端会传递此参数，告诉服务端执行哪个方法<br>data客户端传递过来的参数<br>replay服务器返回回去的值<br>flags标明是否有返回值，0为有（双向），1为没有（单向）</p>
+</blockquote>
+<p><img src="/images/2018_0423/IFp_Daemon.png" alt=""></p>
+<p>IFingerprintDaemon.aidl文件生成的IFingerprintDaemon.java文件 </p>
+<p><img src="/images/2018_0423/IFp_java.png" alt=""></p>
+<h3 id="五，fingerprintd进程是如何和Fingerprint-Hal层是如何传递数据的"><a href="#五，fingerprintd进程是如何和Fingerprint-Hal层是如何传递数据的" class="headerlink" title="五，fingerprintd进程是如何和Fingerprint Hal层是如何传递数据的"></a>五，fingerprintd进程是如何和Fingerprint Hal层是如何传递数据的</h3><blockquote>
+<p>说到Hal层，即硬件抽象层，Android系统为HAL层中的模块接口定义了规范，所有工作于HAL的模块必须按照这个规范来编写模块接口，否则将无法正常访问硬件。 </p>
+</blockquote>
+<p><img src="/images/2018_0423/hal.png" alt=""></p>
+<p>指纹的HAL层规范fingerprint.h在/hardware/libhardware/include/hardware/下可以看到。<br>我们注意到在fingerprint.h中定义了两个结构体，分别是fingerprint_device_t和fingerprint_module_t,如下图。</p>
+<p><img src="/images/2018_0423/fp_h.png" alt=""></p>
+<p>fingerprint_device_t结构体，用于描述指纹硬件设备；fingerprint_module_t结构体，用于描述指纹硬件模块。在FingerprintDaemonProxy.cpp就是通过拿到fingerprint_device_t这个结构体来和Fingerprint HAL层通信的。<br>当需要添加接口调用指纹底层时，在这个fingerprint.h中同样需要添加函数指针，然后通过FingerprintDaemonProxy.cpp中拿到这个fingerprint_device_t来调用fingerprint.h中定义的函数指针，也就相当于调用指纹HAL层。<br>我们重点看一下它的openHal（）函数。</p>
+<p><img src="/images/2018_0423/fp_openHalNew.png" alt=""></p>
+<p>openHal的方法这里主要看上面三个部分： </p>
+<ol>
+<li>根据名称获取指纹hal层模块。hw_module这个一般由指纹芯片厂商根据 fingerprint.h实现，hw_get_module是由HAL框架提供的一个公用的函数，这个函数的主要功能是根据模块ID(module_id)去查找注册在当前系统中与id对应的硬件对象，然后载入(load)其相应的HAL层驱动模块的*so文件。 </li>
+<li>调用fingerprint_module_t的open函数 </li>
+<li>向hal层注册消息回调函数，主要回调 注册指纹进度，识别结果，错误信息等等 </li>
+<li>判断向hal层注册消息回调是否注册成功</li>
+</ol>
+<p>目前关于指纹的上层流程大致就到这儿，指纹底层就不怎么介绍了，术业有专攻，和专业做指纹的还是有不少差距。</p>
+<h3 id="六，FingerprintManager相关阅读"><a href="#六，FingerprintManager相关阅读" class="headerlink" title="六，FingerprintManager相关阅读"></a>六，FingerprintManager相关阅读</h3><p>FingerprintManager中，具有一个Handler，用来分发Error/Help Msg，<br>其中，<code>IFingerprintServiceReceiver</code>用来接收FingerprintManagerService等从native层面识别成功的结果，<br>然后通过mHandler对象，进行结果的分发。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Communication channel from the FingerprintService back to FingerprintManager.</span><br><span class="line"> * @hide</span><br><span class="line"> */</span><br><span class="line">oneway interface IFingerprintServiceReceiver &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/2018_0423/fingerprintserviceReceiver.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/21/源码理解SharedPrefences/" rel="next" title="源码理解SharedPrefences">
+                <i class="fa fa-chevron-left"></i> 源码理解SharedPrefences
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Mia" />
+            
+              <p class="site-author-name" itemprop="name">Mia</p>
+              <p class="site-description motion-element" itemprop="description">live like a dog~</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/BestDI" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:U201013297@hust.edu.cn" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Fingerprint浅析"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Android-Fingerprint&#x6D45;&#x6790;" class="headerlink" title="Android Fingerprint&#x6D45;&#x6790;"></a>Android Fingerprint&#x6D45;&#x6790;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一，Fingerprint总体架构图"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x4E00;&#xFF0C;Fingerprint&#x603B;&#x4F53;&#x67B6;&#x6784;&#x56FE;" class="headerlink" title="&#x4E00;&#xFF0C;Fingerprint&#x603B;&#x4F53;&#x67B6;&#x6784;&#x56FE;"></a>&#x4E00;&#xFF0C;Fingerprint&#x603B;&#x4F53;&#x67B6;&#x6784;&#x56FE;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二，Fingerprint-Framework初始化流程"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x4E8C;&#xFF0C;Fingerprint-Framework&#x521D;&#x59CB;&#x5316;&#x6D41;&#x7A0B;" class="headerlink" title="&#x4E8C;&#xFF0C;Fingerprint Framework&#x521D;&#x59CB;&#x5316;&#x6D41;&#x7A0B;"></a>&#x4E8C;&#xFF0C;Fingerprint Framework&#x521D;&#x59CB;&#x5316;&#x6D41;&#x7A0B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三，Fingerprintd初始化"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x4E09;&#xFF0C;Fingerprintd&#x521D;&#x59CB;&#x5316;" class="headerlink" title="&#x4E09;&#xFF0C;Fingerprintd&#x521D;&#x59CB;&#x5316;"></a>&#x4E09;&#xFF0C;Fingerprintd&#x521D;&#x59CB;&#x5316;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四，IFingerprintDaemon是如何跟framework通信的"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x56DB;&#xFF0C;IFingerprintDaemon&#x662F;&#x5982;&#x4F55;&#x8DDF;framework&#x901A;&#x4FE1;&#x7684;" class="headerlink" title="&#x56DB;&#xFF0C;IFingerprintDaemon&#x662F;&#x5982;&#x4F55;&#x8DDF;framework&#x901A;&#x4FE1;&#x7684;"></a>&#x56DB;&#xFF0C;IFingerprintDaemon&#x662F;&#x5982;&#x4F55;&#x8DDF;framework&#x901A;&#x4FE1;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五，fingerprintd进程是如何和Fingerprint-Hal层是如何传递数据的"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x4E94;&#xFF0C;fingerprintd&#x8FDB;&#x7A0B;&#x662F;&#x5982;&#x4F55;&#x548C;Fingerprint-Hal&#x5C42;&#x662F;&#x5982;&#x4F55;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;" class="headerlink" title="&#x4E94;&#xFF0C;fingerprintd&#x8FDB;&#x7A0B;&#x662F;&#x5982;&#x4F55;&#x548C;Fingerprint Hal&#x5C42;&#x662F;&#x5982;&#x4F55;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;"></a>&#x4E94;&#xFF0C;fingerprintd&#x8FDB;&#x7A0B;&#x662F;&#x5982;&#x4F55;&#x548C;Fingerprint Hal&#x5C42;&#x662F;&#x5982;&#x4F55;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六，FingerprintManager相关阅读"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#&#x516D;&#xFF0C;FingerprintManager&#x76F8;&#x5173;&#x9605;&#x8BFB;" class="headerlink" title="&#x516D;&#xFF0C;FingerprintManager&#x76F8;&#x5173;&#x9605;&#x8BFB;"></a>&#x516D;&#xFF0C;FingerprintManager&#x76F8;&#x5173;&#x9605;&#x8BFB;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">人生是一种不可阻挡的进步</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+  <div class="footer-custom">Hosted by <a target="_blank" href="https://github.com/BestDI">GitHub</a></div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
