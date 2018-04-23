@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="Android Fingerprint浅析一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
+<meta name="description" content="一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
 <meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android Fingerprint浅析">
 <meta property="og:url" content="http://yoursite.com/2018/04/21/Android-Fingerprint浅析/index.html">
 <meta property="og:site_name" content="Mia&#39;s Home">
-<meta property="og:description" content="Android Fingerprint浅析一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
+<meta property="og:description" content="一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_communication.png">
 <meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_service2.png">
@@ -98,10 +98,10 @@
 <meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_h.png">
 <meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_openHalNew.png">
 <meta property="og:image" content="http://yoursite.com/images/2018_0423/fingerprintserviceReceiver.png">
-<meta property="og:updated_time" content="2018-04-23T12:53:03.174Z">
+<meta property="og:updated_time" content="2018-04-23T12:57:28.992Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Fingerprint浅析">
-<meta name="twitter:description" content="Android Fingerprint浅析一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
+<meta name="twitter:description" content="一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
 <meta name="twitter:image" content="http://yoursite.com/images/2018_0423/fp_communication.png">
 
 
@@ -338,7 +338,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,221
+                  2,217
                 </span>
               
 
@@ -375,7 +375,7 @@
       
 
       
-        <h2 id="Android-Fingerprint浅析"><a href="#Android-Fingerprint浅析" class="headerlink" title="Android Fingerprint浅析"></a>Android Fingerprint浅析</h2><h3 id="一，Fingerprint总体架构图"><a href="#一，Fingerprint总体架构图" class="headerlink" title="一，Fingerprint总体架构图"></a>一，Fingerprint总体架构图</h3><p>Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；</p>
+        <h3 id="一，Fingerprint总体架构图"><a href="#一，Fingerprint总体架构图" class="headerlink" title="一，Fingerprint总体架构图"></a>一，Fingerprint总体架构图</h3><p>Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；</p>
 <p><img src="/images/2018_0423/fp_communication.png" alt="Fp_communication"></p>
 <a id="more"></a> 
 <h3 id="二，Fingerprint-Framework初始化流程"><a href="#二，Fingerprint-Framework初始化流程" class="headerlink" title="二，Fingerprint Framework初始化流程"></a>二，Fingerprint Framework初始化流程</h3><p>2.1. 在Zygote初始化进程中，会启动各种Service，包括FingerprintServe；<br><code>FingerprintService</code>的启动在SystemServer.java的<code>startOtherService()</code>过程中：</p>
@@ -632,7 +632,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Fingerprint浅析"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Android-Fingerprint&#x6D45;&#x6790;" class="headerlink" title="Android Fingerprint&#x6D45;&#x6790;"></a>Android Fingerprint&#x6D45;&#x6790;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一，Fingerprint总体架构图"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x4E00;&#xFF0C;Fingerprint&#x603B;&#x4F53;&#x67B6;&#x6784;&#x56FE;" class="headerlink" title="&#x4E00;&#xFF0C;Fingerprint&#x603B;&#x4F53;&#x67B6;&#x6784;&#x56FE;"></a>&#x4E00;&#xFF0C;Fingerprint&#x603B;&#x4F53;&#x67B6;&#x6784;&#x56FE;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二，Fingerprint-Framework初始化流程"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x4E8C;&#xFF0C;Fingerprint-Framework&#x521D;&#x59CB;&#x5316;&#x6D41;&#x7A0B;" class="headerlink" title="&#x4E8C;&#xFF0C;Fingerprint Framework&#x521D;&#x59CB;&#x5316;&#x6D41;&#x7A0B;"></a>&#x4E8C;&#xFF0C;Fingerprint Framework&#x521D;&#x59CB;&#x5316;&#x6D41;&#x7A0B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三，Fingerprintd初始化"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x4E09;&#xFF0C;Fingerprintd&#x521D;&#x59CB;&#x5316;" class="headerlink" title="&#x4E09;&#xFF0C;Fingerprintd&#x521D;&#x59CB;&#x5316;"></a>&#x4E09;&#xFF0C;Fingerprintd&#x521D;&#x59CB;&#x5316;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四，IFingerprintDaemon是如何跟framework通信的"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x56DB;&#xFF0C;IFingerprintDaemon&#x662F;&#x5982;&#x4F55;&#x8DDF;framework&#x901A;&#x4FE1;&#x7684;" class="headerlink" title="&#x56DB;&#xFF0C;IFingerprintDaemon&#x662F;&#x5982;&#x4F55;&#x8DDF;framework&#x901A;&#x4FE1;&#x7684;"></a>&#x56DB;&#xFF0C;IFingerprintDaemon&#x662F;&#x5982;&#x4F55;&#x8DDF;framework&#x901A;&#x4FE1;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五，fingerprintd进程是如何和Fingerprint-Hal层是如何传递数据的"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x4E94;&#xFF0C;fingerprintd&#x8FDB;&#x7A0B;&#x662F;&#x5982;&#x4F55;&#x548C;Fingerprint-Hal&#x5C42;&#x662F;&#x5982;&#x4F55;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;" class="headerlink" title="&#x4E94;&#xFF0C;fingerprintd&#x8FDB;&#x7A0B;&#x662F;&#x5982;&#x4F55;&#x548C;Fingerprint Hal&#x5C42;&#x662F;&#x5982;&#x4F55;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;"></a>&#x4E94;&#xFF0C;fingerprintd&#x8FDB;&#x7A0B;&#x662F;&#x5982;&#x4F55;&#x548C;Fingerprint Hal&#x5C42;&#x662F;&#x5982;&#x4F55;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六，FingerprintManager相关阅读"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#&#x516D;&#xFF0C;FingerprintManager&#x76F8;&#x5173;&#x9605;&#x8BFB;" class="headerlink" title="&#x516D;&#xFF0C;FingerprintManager&#x76F8;&#x5173;&#x9605;&#x8BFB;"></a>&#x516D;&#xFF0C;FingerprintManager&#x76F8;&#x5173;&#x9605;&#x8BFB;</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一，Fingerprint总体架构图"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#xFF0C;Fingerprint&#x603B;&#x4F53;&#x67B6;&#x6784;&#x56FE;" class="headerlink" title="&#x4E00;&#xFF0C;Fingerprint&#x603B;&#x4F53;&#x67B6;&#x6784;&#x56FE;"></a>&#x4E00;&#xFF0C;Fingerprint&#x603B;&#x4F53;&#x67B6;&#x6784;&#x56FE;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二，Fingerprint-Framework初始化流程"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#xFF0C;Fingerprint-Framework&#x521D;&#x59CB;&#x5316;&#x6D41;&#x7A0B;" class="headerlink" title="&#x4E8C;&#xFF0C;Fingerprint Framework&#x521D;&#x59CB;&#x5316;&#x6D41;&#x7A0B;"></a>&#x4E8C;&#xFF0C;Fingerprint Framework&#x521D;&#x59CB;&#x5316;&#x6D41;&#x7A0B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三，Fingerprintd初始化"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#xFF0C;Fingerprintd&#x521D;&#x59CB;&#x5316;" class="headerlink" title="&#x4E09;&#xFF0C;Fingerprintd&#x521D;&#x59CB;&#x5316;"></a>&#x4E09;&#xFF0C;Fingerprintd&#x521D;&#x59CB;&#x5316;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四，IFingerprintDaemon是如何跟framework通信的"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#xFF0C;IFingerprintDaemon&#x662F;&#x5982;&#x4F55;&#x8DDF;framework&#x901A;&#x4FE1;&#x7684;" class="headerlink" title="&#x56DB;&#xFF0C;IFingerprintDaemon&#x662F;&#x5982;&#x4F55;&#x8DDF;framework&#x901A;&#x4FE1;&#x7684;"></a>&#x56DB;&#xFF0C;IFingerprintDaemon&#x662F;&#x5982;&#x4F55;&#x8DDF;framework&#x901A;&#x4FE1;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五，fingerprintd进程是如何和Fingerprint-Hal层是如何传递数据的"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x4E94;&#xFF0C;fingerprintd&#x8FDB;&#x7A0B;&#x662F;&#x5982;&#x4F55;&#x548C;Fingerprint-Hal&#x5C42;&#x662F;&#x5982;&#x4F55;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;" class="headerlink" title="&#x4E94;&#xFF0C;fingerprintd&#x8FDB;&#x7A0B;&#x662F;&#x5982;&#x4F55;&#x548C;Fingerprint Hal&#x5C42;&#x662F;&#x5982;&#x4F55;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;"></a>&#x4E94;&#xFF0C;fingerprintd&#x8FDB;&#x7A0B;&#x662F;&#x5982;&#x4F55;&#x548C;Fingerprint Hal&#x5C42;&#x662F;&#x5982;&#x4F55;&#x4F20;&#x9012;&#x6570;&#x636E;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六，FingerprintManager相关阅读"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x516D;&#xFF0C;FingerprintManager&#x76F8;&#x5173;&#x9605;&#x8BFB;" class="headerlink" title="&#x516D;&#xFF0C;FingerprintManager&#x76F8;&#x5173;&#x9605;&#x8BFB;"></a>&#x516D;&#xFF0C;FingerprintManager&#x76F8;&#x5173;&#x9605;&#x8BFB;</span></a></li></ol></div>
             
 
           </div>
