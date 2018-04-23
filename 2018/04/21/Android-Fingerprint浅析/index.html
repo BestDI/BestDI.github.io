@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_h.png">
 <meta property="og:image" content="http://yoursite.com/images/2018_0423/fp_openHalNew.png">
 <meta property="og:image" content="http://yoursite.com/images/2018_0423/fingerprintserviceReceiver.png">
-<meta property="og:updated_time" content="2018-04-23T12:43:24.647Z">
+<meta property="og:updated_time" content="2018-04-23T12:53:03.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Fingerprint浅析">
 <meta name="twitter:description" content="Android Fingerprint浅析一，Fingerprint总体架构图Fingerprint表层模块架构如下，只涉及Application,Framework,Frigerprintd以及FingerprintHal，不包含指纹的认证驱动；">
@@ -388,24 +388,29 @@
 <p>将FingerprintService添加到ServiceManager中后，在SystemServiceRegistry.java中静态代码块中注册服务的时候，可以从ServiceManager中获取FingerprintService的Binder对象，从而可以构造出FingerprintManager对象，这样app端就可以通过Context来获取FingerprintManager对象。 </p>
 </blockquote>
 <p><img src="/images/2018_0423/fp_service1.png" alt=""></p>
-<blockquote>
 <p>这样，app端通过Context获取FingerprintManager，通过调用FingerprintManager的接口来实现相应的功能，FingerprintManager转调FingerprintService中方法，FingerprintService负责管理整个注册，识别、删除指纹、检查权限等流程的逻辑，FingerprintService调用fingerprintd的接口，通过fingerprintd和FingerprintHal层进行通信。</p>
-<p>在FingerprintService的getFingerprintDaemon方法中有如下步骤：<br>.1 获取fingerprintd<br>.2 向fingerprintd注册回调函数mDaemonCallback<br>.3 调用获取fingerprintd的openhal函数<br>.4 建立fingerprint文件系统节点，设置节点访问权限，调用fingerprintd的setActiveGroup，将路径传下去。此路径一半用来存储指纹模板的图片等</p>
-</blockquote>
+<p>在FingerprintService的getFingerprintDaemon方法中有如下步骤：  </p>
+<ol>
+<li>获取fingerprintd  </li>
+<li>向fingerprintd注册回调函数mDaemonCallback  </li>
+<li>调用获取fingerprintd的openhal函数  </li>
+<li>建立fingerprint文件系统节点，设置节点访问权限，调用fingerprintd的setActiveGroup，将路径传下去。此路径一半用来存储指纹模板的图片等</li>
+</ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> IFingerprintDaemon <span class="title">getFingerprintDaemon</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mDaemon == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// .1 获取fingerprintd</span></span><br><span class="line">        mDaemon = IFingerprintDaemon.Stub.asInterface(ServiceManager.getService(FINGERPRINTD));</span><br><span class="line">        <span class="keyword">if</span> (mDaemon != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                mDaemon.asBinder().linkToDeath(<span class="keyword">this</span>, <span class="number">0</span>);</span><br><span class="line">                <span class="comment">// .2 向fingerprintd注册回调函数mDaemonCallback</span></span><br><span class="line">                mDaemon.init(mDaemonCallback);</span><br><span class="line">                <span class="comment">// .3 调用获取fingerprintd的openhal函数</span></span><br><span class="line">                mHalDeviceId = mDaemon.openHal();</span><br><span class="line">                <span class="comment">/* .4 建立fingerprint文件系统节点，设置节点访问权限，</span></span><br><span class="line"><span class="comment">                调用fingerprintd的setActiveGroup，</span></span><br><span class="line"><span class="comment">                将路径传下去。此路径一半用来存储指纹模板的图片等*/</span></span><br><span class="line">                <span class="keyword">if</span> (mHalDeviceId != <span class="number">0</span>) &#123;</span><br><span class="line">                    updateActiveGroup(ActivityManager.getCurrentUser());</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    Slog.w(TAG, <span class="string">"Failed to open Fingerprint HAL!"</span>);</span><br><span class="line">                    mDaemon = <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</span><br><span class="line">                Slog.e(TAG, <span class="string">"Failed to open fingeprintd HAL"</span>, e);</span><br><span class="line">                mDaemon = <span class="keyword">null</span>; <span class="comment">// try again later!</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Slog.w(TAG, <span class="string">"fingerprint service not available"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mDaemon;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>.1 FingerprintService在framework模块负责指纹的大部分逻辑，FingerprintService会在开机的时候初始化；<br>.2 application调用framework通过FingerprintManager接口即可实现；<br>.3 framework中FingerManager和FingerprintService的通信使用Binder机制实现，表现即使用aidl这个接口定义语言实现<br>.4 framework调往fingerprintd的同样属于Binder通信，两者分属于不同的进程。不过这部分跟java层Binder处理有点不一样，是java层往native层的调用。</p>
-</blockquote>
+<ol>
+<li>FingerprintService在framework模块负责指纹的大部分逻辑，FingerprintService会在开机的时候初始化；  </li>
+<li>application调用framework通过FingerprintManager接口即可实现；  </li>
+<li>framework中FingerManager和FingerprintService的通信使用Binder机制实现，表现即使用aidl这个接口定义语言实现  </li>
+<li>framework调往fingerprintd的同样属于Binder通信，两者分属于不同的进程。不过这部分跟java层Binder处理有点不一样，是java层往native层的调用。</li>
+</ol>
 <h3 id="三，Fingerprintd初始化"><a href="#三，Fingerprintd初始化" class="headerlink" title="三，Fingerprintd初始化"></a>三，Fingerprintd初始化</h3><p><img src="/images/2018_0423/fingerprintd_1.png" alt=""></p>
-<blockquote>
-<p>fingerprintd如果划分的比较细的话，可以分为四个部分：</p>
-<ul>
-<li><code>fingerprintd.cpp</code>“负责将fingerprintd加入到ServiceManager中，以便FingerprintService能够获取”</li>
-<li><code>IFingerprintDaemon.h/IFingerprintDaemon.cpp</code>“负责java层到fingerprintd的Binder通信”</li>
-<li><code>FingerprintDaemonProxy.h/FingerprintDaemonProxy.cpp</code>“负责fingerprintd和Fignerprint hal层的通信”</li>
-<li><code>IFingerprintDaemonCallback.h/IFingerprintDaemonCallback.cpp</code>“负责将指纹的回调结果传给java层”</li>
-</ul>
-</blockquote>
+<p> fingerprintd如果划分的比较细的话，可以分为四个部分：</p>
+<ol>
+<li><code>fingerprintd.cpp</code>负责将fingerprintd加入到ServiceManager中，以便FingerprintService能够获取</li>
+<li><code>IFingerprintDaemon.h/IFingerprintDaemon.cpp</code>负责java层到fingerprintd的Binder通信</li>
+<li><code>FingerprintDaemonProxy.h/FingerprintDaemonProxy.cpp</code>负责fingerprintd和Fignerprint hal层的通信</li>
+<li><code>IFingerprintDaemonCallback.h/IFingerprintDaemonCallback.cpp</code>负责将指纹的回调结果传给java层</li>
+</ol>
 <p>fingerprintd在init.rc有相应的开机启动脚本，所以一开机就会跑它的main函数。fingerprintd作为一个独立的进程运行，负责将Framework和Hal层的通信连接起来。</p>
 <p><img src="/images/2018_0423/fpd_main.png" alt=""></p>
 <p>fingerprintd 的main函数就是将fingerprintd添加到servicemanager中管理。然后开了一个线程，等待binder消息。</p>
