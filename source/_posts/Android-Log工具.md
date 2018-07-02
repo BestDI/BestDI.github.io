@@ -6,6 +6,7 @@ categories: [Android]
 ---
 
 > **MainLog.java**,使用方法为 `private MainLog LOG = new MainLog(clazz)`
+> [Download Jar](/res/slf4j-android-1.6.1-RC1.jar)
 
 <!-- more --> 
 
