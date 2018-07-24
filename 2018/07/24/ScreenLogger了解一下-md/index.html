@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="ScreenLogger – 一个简单可用的屏幕日志插件How to Use it? Add it in your root build.gradle at the end of repositories:  123456allprojects &amp;#123;    repositories &amp;#123;        ...        maven &amp;#123; url &apos;https://jit">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ScreenLogger了解一下">
 <meta property="og:url" content="http://yoursite.com/2018/07/24/ScreenLogger了解一下-md/index.html">
@@ -90,7 +91,7 @@
 <meta property="og:image" content="http://yoursite.com/images/2018_0724/permission.png">
 <meta property="og:image" content="http://yoursite.com/images/2018_0724/track.png">
 <meta property="og:image" content="http://yoursite.com/images/2018_0724/logdetails.png">
-<meta property="og:updated_time" content="2018-07-24T14:58:48.855Z">
+<meta property="og:updated_time" content="2018-07-24T15:02:55.696Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ScreenLogger了解一下">
 <meta name="twitter:description" content="ScreenLogger – 一个简单可用的屏幕日志插件How to Use it? Add it in your root build.gradle at the end of repositories:  123456allprojects &amp;#123;    repositories &amp;#123;        ...        maven &amp;#123; url &apos;https://jit">
@@ -287,6 +288,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -350,7 +373,7 @@
 </ol>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        ...</span><br><span class="line">        maven &#123; url <span class="string">'https://jitpack.io'</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Add the dependency<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    implementation <span class="string">'com.github.BestDI:ScreenLogger:v1.0'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<a id="more"></a> 
+<a id="more"></a>
 <ol>
 <li>init in your application:<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate()</span><br><span class="line"></span><br><span class="line">    ProcessLifecycleOwner.<span class="keyword">get</span>().lifecycle.apply &#123;</span><br><span class="line">        <span class="keyword">val</span> isEnable = <span class="literal">true</span> <span class="comment">// 可以通过isEnable的状态控制是否打开ScreenLog</span></span><br><span class="line">        addObserver(LoggerLifecycleObserver(<span class="keyword">this</span><span class="symbol">@MainApplication</span>, isEnable))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
@@ -382,6 +405,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
       
 
       
